@@ -56,7 +56,7 @@ class RetrieveRouterMixin:
             except Exception as e:
                 logger.error(f"Error when retrieving an object of type {self.model}: {e}")
                 raise e
-            logger.info(f"An object of type {self.model} with id {id} was successfully retrieved")
+            logger.info(f"An object of type {self.model} with id {id} was successfully retrieved: {response}")
             return response
 
         self.api_router.get(
@@ -105,7 +105,7 @@ class ListRouterMixin:
             except Exception as e:
                 logger.error(f"Error when getting a list of objects of type {self.model}: {e}")
                 raise e
-            logger.info(f"List of objects of type {self.model} was successfully received")
+            logger.info(f"List of objects of type {self.model} was successfully received: {response}")
             return response
 
         self.api_router.get(
