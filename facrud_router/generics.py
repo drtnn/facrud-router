@@ -5,7 +5,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from fastapi_crud_router.utils import get_all_optional_fields_model
+from facrud_router.utils import get_all_optional_fields_model
 
 Model = TypeVar("Model")
 Authentication = TypeVar("Authentication")

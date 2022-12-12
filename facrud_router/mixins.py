@@ -7,7 +7,7 @@ from sqlalchemy import select, delete
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
-from fastapi_crud_router.generics import Model, IdentifierType, Authentication
+from facrud_router.generics import Model, IdentifierType, Authentication
 from .logger import logger
 
 

@@ -1,5 +1,5 @@
-from fastapi_crud_router.generics import RouterGeneric
-from fastapi_crud_router.mixins import (
+from facrud_router.generics import RouterGeneric
+from facrud_router.mixins import (
     RetrieveRouterMixin,
     ListRouterMixin,
     DeleteRouterMixin,

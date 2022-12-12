@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "fastapi-crud-router"
+name = "facrud-router"
 version = "0.1.0"
-description = "FastApi CRUD router"
+description = "FastApi CRUD router for SQLAlchemy"
 authors = ["arutyunyan <8david@inbox.ru>"]
 readme = "README.md"
-packages = [{include = "fastapi_crud_router"}]
+packages = [{ include = "facrud_router" }]
 
 [tool.poetry.dependencies]
 python = "^3.9"
