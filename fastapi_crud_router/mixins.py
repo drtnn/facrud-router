@@ -1,4 +1,3 @@
-import logging
 from typing import Callable
 
 from fastapi import Depends, APIRouter, HTTPException
@@ -9,8 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
 from fastapi_crud_router.generics import Model, IdentifierType, Authentication
-
-logger = logging.getLogger(__name__)
+from .logger import logger
 
 
 class RetrieveRouterMixin:
