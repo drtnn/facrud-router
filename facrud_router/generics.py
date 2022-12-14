@@ -42,6 +42,7 @@ class RouterGeneric:
     def __init__(
             self,
             prefix: str,
+            api_router: Optional[APIRouter],
             identifier_type: IdentifierType,
             model: Model,
             get_session: Callable,
@@ -59,7 +60,7 @@ class RouterGeneric:
             **kwargs
     ):
         self.prefix = prefix
-        self.api_router = APIRouter()
+        self.api_router = api_router if api_router else APIRouter()
         self.model = model
         self.identifier_type = identifier_type
         self.kwargs = kwargs

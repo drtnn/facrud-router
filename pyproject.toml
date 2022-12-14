@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "facrud-router"
-version = "0.1.0"
+version = "0.1.1"
 description = "FastApi CRUD router for SQLAlchemy"
 authors = ["arutyunyan <8david@inbox.ru>"]
 readme = "README.md"

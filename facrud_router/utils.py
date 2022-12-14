@@ -17,7 +17,4 @@ class AllOptionalFields(ModelMetaclass):
 
 
 def get_all_optional_fields_model(model: BaseModel.__class__):
-    class AllOptionalFieldsModel(model, metaclass=AllOptionalFields):
-        pass
-
-    return AllOptionalFieldsModel
+    return AllOptionalFields("AllOptionalFields" + model.__name__, (model,), {})
