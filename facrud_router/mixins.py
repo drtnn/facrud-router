@@ -4,6 +4,7 @@ from fastapi import Depends, APIRouter, HTTPException
 from fastapi.requests import Request
 from pydantic import BaseModel
 from sqlalchemy import select, delete
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
@@ -51,6 +52,8 @@ class RetrieveRouterMixin:
                 response = await self.perform_retrieve(
                     id=id, session=session, request=request, authentication=authentication, *args, **kwargs
                 )
+            except HTTPException as e:
+                raise e
             except Exception as e:
                 logger.error(f"Error when retrieving an object of type {self.model}: {e}")
                 raise e
@@ -100,6 +103,8 @@ class ListRouterMixin:
                 response = await self.perform_list(
                     session=session, request=request, authentication=authentication, *args, **kwargs
                 )
+            except HTTPException as e:
+                raise e
             except Exception as e:
                 logger.error(f"Error when getting a list of objects of type {self.model}: {e}")
                 raise e
@@ -145,6 +150,8 @@ class DeleteRouterMixin:
                 await self.perform_delete(
                     id=id, session=session, request=request, authentication=authentication, *args, **kwargs
                 )
+            except HTTPException as e:
+                raise e
             except Exception as e:
                 logger.error(f"Error when deleting an object of type {self.model}: {e}")
                 raise e
@@ -180,8 +187,12 @@ class CreateRouterMixin:
         # TODO: Error if entity exists
         instance = self.model(**data.dict())
         session.add(instance)
-        await session.commit()
-        return instance
+        try:
+            await session.commit()
+        except IntegrityError:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Violation database constraints")
+        else:
+            return instance
 
     def register_create_action(self, *args, **kwargs):
         if not (self.create_request_schema and self.create_response_schema):
@@ -198,6 +209,8 @@ class CreateRouterMixin:
                 response = await self.perform_create(
                     data=data, session=session, request=request, authentication=authentication, *args, **kwargs
                 )
+            except HTTPException as e:
+                raise e
             except Exception as e:
                 logger.error(f"Error when creating an object of type {self.model}: {e}")
                 raise e
@@ -230,8 +243,9 @@ class UpdateRouterMixin:
     def update_url_pattern(self) -> str:
         return "/%s/{id}" % self.prefix
 
-    async def perform_update(self, id: IdentifierType, data: BaseModel, session: AsyncSession, *args,
-                             **kwargs) -> Model:
+    async def perform_update(
+            self, id: IdentifierType, data: BaseModel, session: AsyncSession, *args, **kwargs
+    ) -> Model:
         query = await session.execute(select(self.model).where(self.model.id == id))
         if instance := query.scalars().first():
             for key, value in data.dict().items():
@@ -256,6 +270,8 @@ class UpdateRouterMixin:
                 response = await self.perform_update(
                     id=id, data=data, session=session, request=request, authentication=authentication, *args, **kwargs
                 )
+            except HTTPException as e:
+                raise e
             except Exception as e:
                 logger.error(f"Error updating an object of type {self.model} with id{id}: {e}")
                 raise e
@@ -317,6 +333,8 @@ class PartialUpdateRouterMixin:
                 response = await self.perform_partial_update(
                     id=id, data=data, session=session, request=request, authentication=authentication, *args, **kwargs
                 )
+            except HTTPException as e:
+                raise e
             except Exception as e:
                 logger.error(f"Error when partially updating an object of type {self.model} with id{id}: {e}")
                 raise e
