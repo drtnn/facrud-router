@@ -42,11 +42,11 @@ class RouterGeneric:
     def __init__(
             self,
             prefix: str,
-            api_router: Optional[APIRouter],
             identifier_type: IdentifierType,
             model: Model,
             get_session: Callable,
             get_authentication: Callable,
+            api_router: Optional[APIRouter] = None,
             request_schema: Optional[BaseModel.__class__] = None,
             create_request_schema: Optional[BaseModel.__class__] = None,
             update_request_schema: Optional[BaseModel.__class__] = None,

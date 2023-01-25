@@ -59,7 +59,7 @@ from app.api.deps import authentication_scheme
 
 app = FastAPI(
     title="FastAPI CURD Router Demo",
-    version="0.1.1",
+    version="0.1.2",
     description="FastAPI CRUD Router for SQLAlchemy",
     openapi_url="/openapi.json",
     docs_url="/",
